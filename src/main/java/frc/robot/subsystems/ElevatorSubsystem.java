@@ -99,6 +99,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private void setSparkMaxConfig(){
     masterConfig
       .inverted(ElevatorConstants.motorInvert)
+      .smartCurrentLimit(40)
       .idleMode(ElevatorConstants.motorIdleMode);
     masterConfig.encoder
       .positionConversionFactor(1000)
@@ -110,6 +111,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     
     slaveConfig
       .inverted(ElevatorConstants.motorInvert)
+      .smartCurrentLimit(40)
       .idleMode(ElevatorConstants.motorIdleMode)
       .follow(ElevatorConstants.kMasterMotorCANID);
     slaveConfig.encoder

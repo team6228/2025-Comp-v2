@@ -27,12 +27,15 @@ public class ExtendIntakeCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    mIntakeSubsystem.mGetController.reset();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     mIntakeSubsystem.isExtended = true;
+    mIntakeSubsystem.isRetracted = false;
     mIntakeSubsystem.getAlgeaRotation();
     //mIntakeSubsystem.setIntakeRotation(IntakeConstants.kExtendedRotation);
   }

@@ -105,8 +105,8 @@ public final class Constants {
     public static final double kExtendedRotation =   0.066366; 
     */
 
-    public static final double kRetractedRotation = 0.159435;
-    public static final double kExtendedRotation =  0.623998; 
+    public static final double kRetractedRotation = 0.701752;
+    public static final double kExtendedRotation =  1.271558; 
 
     public static final double ksafetyMin = 0.0;
     public static final double kSafetyMax = 0.0;
@@ -123,16 +123,26 @@ public final class Constants {
     public static final int kEncoderAChannel = 6;
     public static final int kEncoderBChannel = 7;
     public static final boolean kEncoderReversed = true;
-    //public static final double encoderOffset = -0.574518;
+    public static final double encoderOffset = 0.574518;
 
-    public static final double kGetAlgeaP = 15.0;
-    public static final double kGetAlgeaI = 0.1;
-    public static final double kGetAlgeaD = 3.5;
+    public static final double kP = 7.5;
+    public static final double kI = 0.01;
+    public static final double kD = 1.0;
 
-    public static final double kRemoveAlgeaP = 20.0;
-    public static final double kRemoveAlgeaI = 0.1;
-    public static final double kRemoveAlgeaD = 3.5;
-    
+    public static final double kGetAlgeaP = 3.5;
+    public static final double kGetAlgeaI = 0.01;
+    public static final double kGetAlgeaD = 2.0;
+
+    /* 
+    public static final double kRemoveAlgeaP = 7.5;
+    public static final double kRemoveAlgeaI = 0.01;
+    public static final double kRemoveAlgeaD = 1.0;
+    */
+
+    public static final double kRemoveAlgeaP = 8.5;
+    public static final double kRemoveAlgeaI = 0.01;
+    public static final double kRemoveAlgeaD = 4.5;
+
     public static final double kDt = 0.02;
     public static final double kMaxVelocity = 5.0;
     public static final double kMaxAcceleration = 10.0;
@@ -147,7 +157,7 @@ public final class Constants {
     public static double kS = 3.55;
     public static double kG = -4.3;
     public static double kV = 2.0;
-    public static double kA = 2.0;
+    public static double kA = 3.0;
 
     public static final double kWheelDiameter = 6.54 / 1000; //In meters
     public static final int kPulsePerRevolution = 1000;

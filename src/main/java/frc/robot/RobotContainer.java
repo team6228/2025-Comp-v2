@@ -45,14 +45,15 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
      
-     
     mOmniSubsystem.setDefaultCommand(
       new ArcadeDriveCommand(mOmniSubsystem, () -> mDriverController.getRawAxis(4), () -> mDriverController.getRawAxis(1))
     );
     
+    /* 
     mElevatorSubsystem.setDefaultCommand(
       new test_elevatorCommand(mElevatorSubsystem)
     );
+    */
 
     /* 
     mIntakeSubsystem.setDefaultCommand(

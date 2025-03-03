@@ -27,12 +27,16 @@ public class RetractIntakeCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    mIntakeSubsystem.mRemoveController.reset();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     mIntakeSubsystem.isExtended = false;
+    mIntakeSubsystem.isRetracted = true;
+    mIntakeSubsystem.mRemoveController.reset();
     mIntakeSubsystem.removeAlgeaRotation();
     //mIntakeSubsystem.setIntakeRotation(IntakeConstants.kRetractedRotation);
   }

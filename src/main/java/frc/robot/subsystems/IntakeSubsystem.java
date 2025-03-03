@@ -40,13 +40,16 @@ public class IntakeSubsystem extends SubsystemBase {
   private final VictorSPX rotationMotor = new VictorSPX(IntakeConstants.kRotationDeviceNumber);
   private final VictorSPX intakeMotor = new VictorSPX(IntakeConstants.kSpeedDeviceNumber);
 
-  private final PIDController mGetController =
-      new PIDController(IntakeConstants.kGetAlgeaP, IntakeConstants.kGetAlgeaI, IntakeConstants.kGetAlgeaD);
+  public final PIDController mGetController =
+    new PIDController(IntakeConstants.kGetAlgeaP, IntakeConstants.kGetAlgeaI, IntakeConstants.kGetAlgeaD);
 
-      private final PIDController mRemoveController =
-      new PIDController(IntakeConstants.kRemoveAlgeaP, IntakeConstants.kRemoveAlgeaI, IntakeConstants.kRemoveAlgeaD);
+  public final PIDController mRemoveController =  
+    new PIDController(IntakeConstants.kRemoveAlgeaP, IntakeConstants.kRemoveAlgeaI, IntakeConstants.kRemoveAlgeaD);
 
-  private final ArmFeedforward mFeedforward = new ArmFeedforward(IntakeConstants.kS, IntakeConstants.kG,
+  public final PIDController mController =
+    new PIDController(IntakeConstants.kP, IntakeConstants.kI, IntakeConstants.kD);
+  
+    public final ArmFeedforward mFeedforward = new ArmFeedforward(IntakeConstants.kS, IntakeConstants.kG,
    IntakeConstants.kV, IntakeConstants.kA);
    
   private final Encoder Encoder = new Encoder(
@@ -70,6 +73,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   //Shooting
   public boolean isExtended = false;
+  public boolean isRetracted = true;
   public boolean isReloading = false;
   public boolean isRotating = false;
   public boolean isAtMax = false;
@@ -152,9 +156,9 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Remove Output", controllerOutput);
     SmartDashboard.putNumber("Get Clamped Output", getMotorOutput);
     SmartDashboard.putNumber("Get Output", getControllerOutput);
-    SmartDashboard.putNumber("Rotation Clamped Output", motorOutput);
-    SmartDashboard.putNumber("Rotation Output", controllerOutput);
-    SmartDashboard.putNumber("Rotation encoder distance", Encoder.getDistance());
+    SmartDashboard.putNumber("Remove Clamped Output", removeMotorOutput);
+    SmartDashboard.putNumber("Remove Output", removeControllerOutput);
+    SmartDashboard.putNumber("Rotation encoder distance", Encoder.getDistance() + IntakeConstants.encoderOffset);
     SmartDashboard.putNumber("Rotation encoder radian", getIntakeRadiansPosition());
     SmartDashboard.putBoolean("Rotation encoder invert", IntakeConstants.kEncoderReversed);
     SmartDashboard.putBoolean("Rotation motor invert", intakeMotor.getInverted());
@@ -237,78 +241,66 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void removeAlgeaRotation(){ 
-    System.out.println("No");
-
+    /* 
     if(IntakeConstants.ksafetyMin > Encoder.getDistance() || Encoder.getDistance() > IntakeConstants.kSafetyMax){
       rotationMotor.set(ControlMode.PercentOutput,0);
     }
+    */
 
-    removeControllerOutput = mRemoveController.calculate(Encoder.getDistance(),IntakeConstants.kRetractedRotation);
+    removeControllerOutput = mRemoveController.calculate(Encoder.getDistance() + IntakeConstants.encoderOffset,IntakeConstants.kRetractedRotation)
+      + mFeedforward.calculate(IntakeConstants.kRetractedRotation,2);
 
+    //Maaaaybe I can remove this
     removeMotorOutput = MathUtil.clamp(removeControllerOutput / RobotController.getBatteryVoltage(), -1, 1);
 
-    if(Encoder.getDistance()<= IntakeConstants.kRetractedRotation && !isExtended){
-      System.out.println("Re");
-      removeMotorOutput = IntakeConstants.kV * 2 / RobotController.getBatteryVoltage();
-    }
-    SmartDashboard.putNumber("Remove Clamped Output", removeMotorOutput);
-    SmartDashboard.putNumber("Remove Output", removeControllerOutput);
+    SmartDashboard.putNumber("Rotation Clamped Output", removeMotorOutput);
+    SmartDashboard.putNumber("Rotation Output", removeControllerOutput);
+    SmartDashboard.putNumber("Rotation error",IntakeConstants.kRetractedRotation - Encoder.getDistance() + IntakeConstants.encoderOffset);
 
     rotationMotor.set(ControlMode.PercentOutput,removeMotorOutput);
+    //rotationMotor.set(ControlMode.PercentOutput,IntakeConstants.kS / RobotController.getBatteryVoltage());
   }
 
   public void getAlgeaRotation(){ 
-    System.out.println("Yes");
-
+    /* 
     if(IntakeConstants.ksafetyMin > Encoder.getDistance() || Encoder.getDistance() > IntakeConstants.kSafetyMax){
       rotationMotor.set(ControlMode.PercentOutput,0);
     }
+    */
 
-    getControllerOutput = mGetController.calculate(Encoder.getDistance(),IntakeConstants.kExtendedRotation);
+    getControllerOutput = mGetController.calculate(Encoder.getDistance() + IntakeConstants.encoderOffset,IntakeConstants.kExtendedRotation)
+      + mFeedforward.calculate(IntakeConstants.kExtendedRotation,2);
 
+    //Maaaaybe I can remove this
     getMotorOutput = MathUtil.clamp(getControllerOutput / RobotController.getBatteryVoltage(), -1, 1);
 
-    if(Encoder.getDistance() >= IntakeConstants.kExtendedRotation && isExtended){
-      System.out.println("Ex");
-      motorOutput = -IntakeConstants.kV * 2 / RobotController.getBatteryVoltage();
-    }
-
-    SmartDashboard.putNumber("Get Clamped Output", getMotorOutput);
-    SmartDashboard.putNumber("Get Output", getControllerOutput);
+    SmartDashboard.putNumber("Rotation Clamped Output", getMotorOutput);
+    SmartDashboard.putNumber("Rotation Output", getControllerOutput);
+    SmartDashboard.putNumber("Rotation error",IntakeConstants.kExtendedRotation - Encoder.getDistance() + IntakeConstants.encoderOffset);
 
     rotationMotor.set(ControlMode.PercentOutput,getMotorOutput);
+    //rotationMotor.set(ControlMode.PercentOutput,IntakeConstants.kS / RobotController.getBatteryVoltage());
   }
   
 
   public void setIntakeRotation(double setpoint){ 
-    if (setpoint == IntakeConstants.kRetractedRotation) {
-      System.out.println("No");
-    }else if(setpoint == IntakeConstants.kExtendedRotation){
-      System.out.println("Yes");
-    }
-
+    /* 
     if(IntakeConstants.ksafetyMin > Encoder.getDistance() || Encoder.getDistance() > IntakeConstants.kSafetyMax){
       rotationMotor.set(ControlMode.PercentOutput,0);
     }
+    */
 
-    controllerOutput = mGetController.calculate(Encoder.getDistance(),setpoint);
+    controllerOutput = mController.calculate(Encoder.getDistance() + IntakeConstants.encoderOffset,setpoint)
+      + mFeedforward.calculate(Encoder.getDistance() + IntakeConstants.encoderOffset,Encoder.getRate());
 
     //Maaaaybe I can remove this
     motorOutput = MathUtil.clamp(controllerOutput / RobotController.getBatteryVoltage(), -1, 1);
-
-    if(Encoder.getDistance() >= IntakeConstants.kExtendedRotation && isExtended){
-      System.out.println("Ex");
-      motorOutput = -IntakeConstants.kV * 2 / RobotController.getBatteryVoltage();
-    }else if(Encoder.getDistance()<= IntakeConstants.kRetractedRotation && !isExtended){
-      System.out.println("Re");
-      motorOutput = IntakeConstants.kV * 2 / RobotController.getBatteryVoltage();
-    }
 
     SmartDashboard.putNumber("Rotation Clamped Output", motorOutput);
     SmartDashboard.putNumber("Rotation Output", controllerOutput);
 
     rotationMotor.set(ControlMode.PercentOutput,motorOutput);
-    //rotationMotor.set(ControlMode.PercentOutput,IntakeConstants.kV / RobotController.getBatteryVoltage());
+    //rotationMotor.set(ControlMode.PercentOutput,IntakeConstants.kS / RobotController.getBatteryVoltage());
   }
 
   private double getIntakeRadiansPosition(){

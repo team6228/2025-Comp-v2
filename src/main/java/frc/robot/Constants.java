@@ -65,6 +65,8 @@ public final class Constants {
     public static final double kP = 1;
     public static final double kI = 0;
     public static final double kD = 0.01;
+    public static final double iZone = 0.01;
+
 
     public static final double kDt = 0.02;
     public static final double kMaxVelocity = 1.75;

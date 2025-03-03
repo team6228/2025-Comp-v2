@@ -41,8 +41,7 @@ public class setElevatorLevelCommand extends Command {
   @Override
   public void execute() {
     realSetPoint = mSetPoint.get();
-
-    mElevatoraSubsystem.setElevatorLevelRoborio(realSetPoint);
+    mElevatoraSubsystem.setElevatorLevel(realSetPoint);
   }
 
   // Called once the command ends or is interrupted.

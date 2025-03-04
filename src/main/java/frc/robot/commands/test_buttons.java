@@ -39,7 +39,7 @@ public class test_buttons extends Command {
   @Override
   public void execute() {
     realPov = mPov.get();
-    System.out.println(); 
+    System.out.println(realPov); 
   }
 
   // Called once the command ends or is interrupted.

@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class test_elevatorCommand extends Command {
+public class test_elevatorCommandRevs extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ElevatorSubsystem mElevatorSubsystem;
 
@@ -20,7 +20,7 @@ public class test_elevatorCommand extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public test_elevatorCommand(ElevatorSubsystem subsystem) {
+  public test_elevatorCommandRevs(ElevatorSubsystem subsystem) {
     mElevatorSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);

@@ -14,11 +14,11 @@ public final class Autos {
     return Commands.sequence(subsystem.exampleMethodCommand(), new ArcadeDriveCommand(subsystem,null,null));
   }
 
-  /* 
+  
   public static Command simpleAuto(OmniDriveSubsystem subsystem){
-    return Commands.run(new ArcadeDriveCommand(subsystem.robotDifferentialDrive,0.8,0.8), subsystem);
+    return new driveWithTimer(subsystem);
   }
-  */
+  
 
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");

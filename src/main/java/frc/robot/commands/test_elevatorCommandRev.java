@@ -4,46 +4,37 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.OmniDriveSubsystem;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import frc.robot.subsystems.ElevatorSubsystem;
+
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 
-
 /** An example command that uses an example subsystem. */
-public class driveWithTimer extends Command {
+public class test_elevatorCommandRev extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final OmniDriveSubsystem mOmniDriveSubsystem;
-  private final Timer driveTimer = new Timer();
+  private final ElevatorSubsystem mElevatorSubsystem;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public driveWithTimer(OmniDriveSubsystem OmniDriveSubsystem) {
-    this.mOmniDriveSubsystem = OmniDriveSubsystem;
+  public test_elevatorCommandRev(ElevatorSubsystem subsystem) {
+    mElevatorSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(OmniDriveSubsystem);
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveTimer.reset();
-    driveTimer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(driveTimer.get() < 2.0){
-      System.out.println("Yes king");
-      mOmniDriveSubsystem.driveArcade(0, 1);
-    }else if(driveTimer.get() > 2.0){
-      System.out.println("No king");
-      mOmniDriveSubsystem.driveArcade(0, 0);
-    }
+    mElevatorSubsystem.testElevatorRevs();
   }
 
   // Called once the command ends or is interrupted.

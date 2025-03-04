@@ -49,11 +49,11 @@ public class RobotContainer {
       new ArcadeDriveCommand(mOmniSubsystem, () -> mDriverController.getRawAxis(4), () -> mDriverController.getRawAxis(1))
     );
     
-    /* 
+     
     mElevatorSubsystem.setDefaultCommand(
       new test_elevatorCommand(mElevatorSubsystem)
     );
-    */
+    
 
     /* 
     mIntakeSubsystem.setDefaultCommand(
@@ -103,6 +103,8 @@ public class RobotContainer {
       .toggleOnTrue(new setElevatorLevelCommand(mElevatorSubsystem,() -> ElevatorConstants.kFeederStationPosition));
 
     //L1
+    */
+
     mDriverController.button(OperatorConstants.kL1Button)
       .toggleOnTrue(new setElevatorLevelCommand(mElevatorSubsystem,() -> ElevatorConstants.kL1Position));
     
@@ -117,8 +119,8 @@ public class RobotContainer {
     //L4
     mDriverController.button(OperatorConstants.kL4Button)
       .toggleOnTrue(new setElevatorLevelCommand(mElevatorSubsystem,() -> ElevatorConstants.kL4Position));
-    */
     }
+
 
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous

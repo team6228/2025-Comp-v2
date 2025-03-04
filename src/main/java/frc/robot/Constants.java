@@ -27,11 +27,11 @@ public final class Constants {
     public static final int kShootPvc = 3;
     public static final int kReloadPvc = 5;
     
-    public static final int kFeederButton = 8;
-    public static final int kL1Button = 8;
-    public static final int kL2Button = 8;
-    public static final int kL3Button = 8;
-    public static final int kL4Button = 8;
+    public static final int kFeederButton = 0;
+    public static final int kL1Button = 180;
+    public static final int kL2Button = 90;
+    public static final int kL3Button = 270;
+    public static final int kL4Button = 0;
   }
 
   public static class DriveConstants{

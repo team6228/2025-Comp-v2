@@ -19,6 +19,7 @@ import frc.robot.commands.shooterReloadCommand;
 import frc.robot.commands.getAlgea;
 import frc.robot.commands.removeAlgea;
 import frc.robot.commands.stopIntake;
+import frc.robot.commands.test_buttons;
 import frc.robot.commands.test_elevatorCommand;
 import frc.robot.commands.ExtendIntakeCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -83,13 +84,7 @@ public class RobotContainer {
       .toggleOnFalse(new stopIntake(mIntakeSubsystem))
       .toggleOnTrue(new getAlgea(mIntakeSubsystem));
 
-    //Stop Intake
-    /* 
-    mDriverController.button(OperatorConstants.kStopButton)
-      .toggleOnTrue(new stopIntake(mIntakeSubsystem));
-    */
-
-    /* 
+    /*  
     //Shoot PVC
     mDriverController.button(OperatorConstants.kShootPvc)
       .toggleOnTrue(new shootCommand(mIntakeSubsystem));
@@ -101,10 +96,9 @@ public class RobotContainer {
     //Feeder
     mDriverController.button(OperatorConstants.kFeederButton)
       .toggleOnTrue(new setElevatorLevelCommand(mElevatorSubsystem,() -> ElevatorConstants.kFeederStationPosition));
-
+      */
+    /* 
     //L1
-    */
-
     mDriverController.button(OperatorConstants.kL1Button)
       .toggleOnTrue(new setElevatorLevelCommand(mElevatorSubsystem,() -> ElevatorConstants.kL1Position));
     
@@ -119,6 +113,23 @@ public class RobotContainer {
     //L4
     mDriverController.button(OperatorConstants.kL4Button)
       .toggleOnTrue(new setElevatorLevelCommand(mElevatorSubsystem,() -> ElevatorConstants.kL4Position));
+      */
+
+    //L1
+    mDriverController.button(OperatorConstants.kL1Button)
+      .toggleOnTrue(new test_buttons(mElevatorSubsystem, () -> 1.0));
+    
+    //L2
+    mDriverController.button(OperatorConstants.kL1Button)
+      .toggleOnTrue(new test_buttons(mElevatorSubsystem, () -> 2.0));
+
+    //L3
+    mDriverController.button(OperatorConstants.kL1Button)
+      .toggleOnTrue(new test_buttons(mElevatorSubsystem, () -> 3.0));
+
+    //L4
+    mDriverController.button(OperatorConstants.kL1Button)
+      .toggleOnTrue(new test_buttons(mElevatorSubsystem, () -> 4.0));
     }
 
 
